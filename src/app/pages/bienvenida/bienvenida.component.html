@@ -1,0 +1,21 @@
+
+<div *ngIf ="load">
+    <section id="hero">
+        <div class="hero-container">
+          <a routerLink="/" class="hero-logo" data-aos="zoom-in"><img src="../../../assets/logo.png"></a>
+          <h1 data-aos="zoom-in">Bienvenido a NOVA</h1>
+          <h2 data-aos="fade-up">Para acceder a nuestro sistema de click en login - Si no tiene usuario, presione la opcion de registro.</h2>
+          <a data-aos="fade-up" data-aos-delay="200" routerLink="/login" routerLinkActive = "active" class="btn-get-started scrollto">Login</a>
+          <a data-aos="fade-up" data-aos-delay="200" routerLink="/registro" routerLinkActive = "active" class="btn-get-started scrollto">Register</a>
+        </div>
+      </section>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

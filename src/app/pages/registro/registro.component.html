@@ -1,0 +1,127 @@
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <h2>Registro</h2>
+        </div>
+        <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Seleccione una opcion</h4>
+            <form class="form" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+                <div class="row g-3">
+                        <select formControlName="perfil" (change) = "onChange($event)">
+                            <option *ngFor="let r of perfiles" [ngValue]="r">{{ r }}</option>
+                        </select>
+
+                    <div class="row g-3" *ngIf="seleccion!=''">
+                        <div class="form-group">
+                            <input class="form-control" formControlName="nombre" type="text" [ngClass]="{ 'is-invalid': submitted && f['nombre'].errors }" placeholder="Nombre" required>
+                            <div *ngIf="submitted && f['nombre'].errors" class="invalid-feedback">
+                                <div *ngIf="f['nombre'].errors['required']">Completar Nombre</div>
+                                <div *ngIf="f['nombre'].errors['pattern']">
+                                  El nombre no puede contener caracteres invalidos (numeros,puntos,espacios,etc.)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" formControlName="edad" type="number" [ngClass]="{ 'is-invalid': submitted && f['edad'].errors }" placeholder="Edad" required> 
+                            <div *ngIf="submitted && f['edad'].errors"  class="invalid-feedback">
+                                <div *ngIf="f['edad'].errors['required']">Completar Edad</div>
+                                <div *ngIf="f['edad'].errors['min']">
+                                  {{errorEdad}}.
+                                </div>
+                                <div *ngIf="f['edad'].errors['max']">
+                                  Solo se acepta especialistas de hasta 80 años.
+                                </div>
+                                <div *ngIf="f['edad'].errors['pattern']">
+                                  No puede haber edad con coma.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" formControlName="dni" type="text" [ngClass]="{ 'is-invalid': submitted && f['dni'].errors }" placeholder="Dni" required>
+                            <div *ngIf="submitted && f['dni'].errors" class="invalid-feedback">
+                                <div *ngIf="f['dni'].errors['required']">Completar DNI</div>
+                                <div *ngIf="f['dni'].errors['minlength']">
+                                El DNI no puede tener menos de 8 numeros
+                                </div>
+                                <div *ngIf="f['dni'].errors['maxlength']">
+                                El DNI no puede tener mas de 8 numeros
+                                </div>
+                                <div *ngIf="f['dni'].errors['pattern']">
+                                El DNI no puede contener caracteres invalidos (letras,puntos,espacios,etc.)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" *ngIf="opciones=='Especialidad'">
+                            <select class="form-control" formControlName="especialidad" class="form-select">
+                                <option value="">Seleccione...</option>
+                                <option *ngFor="let e of especialidades" [ngValue]="e">{{e}}</option>
+                            </select>
+
+                            <button type="button" (click) = "initEspecialidad()">Agregar Especialidad</button>
+                            
+                            <form *ngIf = "nuevaEspecialidad" [formGroup]="extraEspecialidad" (ngSubmit)="anadirEspecialidad()">
+                                <input class="form-control" formControlName = "newEspecialidad" type="text" [ngClass]="{ 'is-invalid': newSubmitted && fp['newEspecialidad'].errors }">
+                                <div *ngIf="newSubmitted && fp['newEspecialidad'].errors" class="invalid-feedback">
+                                    <div *ngIf="fp['newEspecialidad'].errors['required']">Completar la nueva especialidad</div>
+                                    <div *ngIf="fp['newEspecialidad'].errors['pattern']">
+                                      La nueva especialidad no puede contener caracteres invalidos (numeros,puntos,espacios,etc.)
+                                    </div>
+                                </div>
+                                <button type="submit">Listo</button>
+                            </form>
+                        </div>
+
+                        <div class="form-group" *ngIf="opciones!='Especialidad'">
+                            <input class="form-control" formControlName="obraSocial" type="text" [ngClass]="{ 'is-invalid': submitted && f['obraSocial'].errors }" placeholder="Obra Social" required>
+                            <div *ngIf="submitted && f['obraSocial'].errors" class="invalid-feedback">
+                                <div *ngIf="f['obraSocial'].errors['required']">Completar Obra Social</div>
+                                <div *ngIf="f['obraSocial'].errors['pattern']">
+                                  La obra social no puede contener caracteres invalidos (numeros,puntos,espacios,etc.)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" formControlName="email" type="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" placeholder="Email" required>
+                            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                <div *ngIf="f['email'].errors['required']">Email es requerido</div>
+                                <div *ngIf="f['email'].errors['email']">Email invalido</div>
+                            </div>  
+                        </div>
+                        
+                        <div class="form-group">
+                            <input class="form-control"  formControlName="password" type="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" placeholder="Contraseña" required>
+                            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                <div *ngIf="f['password'].errors['required']">Password es requerido</div>
+                                <div *ngIf="f['password'].errors['minlength']">
+                                    La contraseña no puede tener menos de 6 caracteres.
+                                </div>
+                            </div>  
+                        </div>
+
+                        <div class="form-group">
+                            <div>
+                                <label>Fotos</label>
+                                <input type ="file" accept=".png, .jpg, .jepg" multiple (change)="cargarImagen($event)">
+                            </div>
+                            <div *ngIf="failImagen" class="alert alert-warning" role="alert">
+                                {{mensajeImagen}}
+                            </div>
+                        </div>
+
+                        <button type="submit" >Registrar</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<!-- <select [(ngModel)]="opcionSeleccionada" (change)="seleccion()">
+  <option value = "especialista">Especialista</option>
+  <option value = "paciente">Paciente</option>
+</select> -->

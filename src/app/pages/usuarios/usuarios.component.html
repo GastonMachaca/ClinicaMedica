@@ -1,0 +1,17 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li *ngIf="usuarioLogueado=='admin@hotmail.com'" class="nav-item active">
+          <a class="nav-link" routerLinkActive = "active">Usuarios</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" (click) = "cerrarSesion()">Cerrar Sesion</a> 
+        </li>
+      </ul>
+    </div>
+  
+  </nav>
+
+  
+
+
